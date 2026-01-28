@@ -53,3 +53,4 @@ public class loginTests extends Base.baseTest {
         Assert.assertEquals(loginpage.isErrorMessageDisplayed(), "Your password is invalid!");
     }
 }
+
