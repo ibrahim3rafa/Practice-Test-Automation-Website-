@@ -10,7 +10,7 @@ public class loginTests extends Base.baseTest {
 
     private final By loginTestsLink = By.xpath("//a[contains(text(),'Test Login Page')]");
     private final By TestLoginPageHeader = By.xpath("//h2[text()='Test login']");
-    loginPage loginpage;
+    private static loginPage loginpage;
 
     @BeforeClass
     public void enterLoginPage() {
@@ -22,7 +22,7 @@ public class loginTests extends Base.baseTest {
     }
 
     @Test
-    public void validLoginTest() {
+    public static void validLoginTest() {
         loginpage.enterUsername("student");
         loginpage.enterPassword("Password123");
         loginpage.clickSubmit();
@@ -34,7 +34,7 @@ public class loginTests extends Base.baseTest {
 
     //Test case 2: Negative username test
     @Test
-    public void negativeUsernameTest() {
+    public static void negativeUsernameTest() {
         loginpage.enterUsername("incorrectUser");
         loginpage.enterPassword("Password123");
         loginpage.clickSubmit();
@@ -44,7 +44,7 @@ public class loginTests extends Base.baseTest {
     }
 
     @Test
-    public void negativePasswordTest() {
+    public static void negativePasswordTest() {
         loginpage.enterUsername("student");
         loginpage.enterPassword("incorrectPass");
         loginpage.clickSubmit();

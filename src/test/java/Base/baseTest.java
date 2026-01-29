@@ -11,7 +11,7 @@ import java.time.Duration;
 
 public class baseTest {
 
-    public WebDriver driver;
+    public  WebDriver driver;
     public WebDriverWait wait;
     private final By practiceText = By.xpath("//h1[normalize-space()='Practice']");
 
