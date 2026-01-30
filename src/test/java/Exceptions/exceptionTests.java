@@ -34,13 +34,16 @@ public class exceptionTests extends Base.baseTest {
     }
 
     @Test
-    public void elementNotVisibleExceptionTest() {
+    public void elementNotInteractableException() {
         exceptionpage.clickAddButton();
         // Implement test logic for ElementNotVisibleException
         exceptionpage.secondRowInputFieldDisplayed();
         // Add assertions to verify the expected behavior
-
+        exceptionpage.enterTextAtSecondRow(inputText);
+        // This is a placeholder assertion; replace it with actual verification logic
     }
+
+
 }
 
 
