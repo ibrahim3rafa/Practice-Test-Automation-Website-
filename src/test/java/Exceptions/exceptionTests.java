@@ -13,7 +13,7 @@ public class exceptionTests extends Base.baseTest {
     private final By exceptionTestsLink = By.xpath("//a[.='Test Exceptions']");
     private final By exceptionTestPageHeader = By.xpath("//h2[contains(text(),'Test Exceptions')]");
     private String inputText = "IbrahimArafa";
-    private exceptionPage exceptionpage;
+    private static exceptionPage exceptionpage;
 
     @BeforeClass
     public void enterExceptionPage() {
@@ -71,8 +71,8 @@ public class exceptionTests extends Base.baseTest {
     public void timeoutException() {
         // Implement test logic for TimeoutException
         // This is a placeholder implementation; replace it with actual verification logic
-       exceptionpage.clickAddButton();
-         Assert.assertTrue(exceptionpage.inputFieldDisplayed());
+        exceptionpage.clickAddButton();
+        Assert.assertTrue(exceptionpage.inputFieldDisplayed());
     }
 }
 
