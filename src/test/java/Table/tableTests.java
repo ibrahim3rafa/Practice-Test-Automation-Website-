@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class tableTests extends Base.baseTest{
+public class tableTests extends Base.baseTest {
 
 
     private final By tableUrl = By.xpath("//a[.='Test Table']");
@@ -29,6 +29,14 @@ public class tableTests extends Base.baseTest{
         Assert.assertFalse(tablepage.isLanguageFiltered("Any"));
     }
 
+    @Test
+    public void levelFilterTest() {
+        // Implement test logic for level filter in the table
+        // Add assertions to verify the expected behavior
+        // Verify that the table is filtered by the selected levels
+        tablepage.selectLevel("Beginner");
+        Assert.assertTrue(tablepage.isLevelFiltered("Beginner"));
+    }
 
 
 }
