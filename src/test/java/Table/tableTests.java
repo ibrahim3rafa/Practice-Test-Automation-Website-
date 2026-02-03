@@ -26,7 +26,7 @@ public class tableTests extends Base.baseTest {
         tablepage.selectLanguage("Java");
         // Verify that the table is filtered by Java
         //As there are 3 elements with other languages not Java and not visible at UI
-        Assert.assertFalse(tablepage.isLanguageFiltered("Any"));
+        Assert.assertTrue(tablepage.isLanguageFiltered("Java"));
     }
 
     @Test
@@ -38,5 +38,14 @@ public class tableTests extends Base.baseTest {
         Assert.assertTrue(tablepage.isLevelFiltered("Beginner"));
     }
 
+    @Test
+    public void minEnrollmentFilterTest() {
+        // Implement test logic for minimum enrollment filter in the table
+        // Add assertions to verify the expected behavior
+        String[] enrollments = {"Any", "5,000+", "10,000+", "50,000+"};
+        tablepage.setMinEnrollment(enrollments[2]); // Set minimum enrollment to "10,000+"
+        // Verify that the table is filtered by minimum enrollment
+        Assert.assertTrue(tablepage.isMinEnrollmentFiltered(enrollments[2]));
+    }
 
 }
