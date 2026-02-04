@@ -48,4 +48,25 @@ public class tableTests extends Base.baseTest {
         Assert.assertTrue(tablepage.isMinEnrollmentFiltered(enrollments[2]));
     }
 
+    @Test
+    public void combinedFiltersTest() {
+        // Implement test logic for combined filters in the table
+        // Add assertions to verify the expected behavior
+        tablepage.selectLanguage("Python");
+        tablepage.selectLevel("Advanced");
+        tablepage.setMinEnrollment("50,000+");
+        // Verify that the table is filtered by all selected criteria
+        Assert.assertTrue(tablepage.isLanguageFiltered("Python"));
+        Assert.assertTrue(tablepage.isLevelFiltered("Advanced"));
+        Assert.assertTrue(tablepage.isMinEnrollmentFiltered("50,000+"));
+    }
+
+    @Test
+    public void noResultsTest() {
+        // Implement test logic for no results scenario in the table
+        // Add assertions to verify the expected behavior
+        combinedFiltersTest();
+        // Verify that the table shows no results
+        Assert.assertTrue(tablepage.isNoResultsDisplayed());
+    }
 }

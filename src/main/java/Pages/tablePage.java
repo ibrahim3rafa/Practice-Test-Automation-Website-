@@ -20,6 +20,7 @@ public class tablePage {
     private final By levelFilterIntermediate = By.cssSelector("input[name='level'][value='Intermediate']");
     private final By levelFilterAdvanced = By.cssSelector("input[name='level'][value='Advanced']");
     private final By enrollmentDropdown = By.id("enrollDropdown");
+    private final By noResultsMessage = By.xpath("//div[@id='noData']");
 
     public tablePage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
@@ -116,6 +117,13 @@ public class tablePage {
             return true;
         }
         return false; // Placeholder return value
+    }
+
+    public boolean isNoResultsDisplayed() {
+        // Implement logic to verify if no results message is displayed in the table
+        // This is a placeholder method; replace it with actual implementation
+        wait.until(ExpectedConditions.visibilityOfElementLocated(noResultsMessage));
+        return driver.findElement(noResultsMessage).isDisplayed();// Placeholder return value
     }
 }
 
