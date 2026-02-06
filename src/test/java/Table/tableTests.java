@@ -78,6 +78,25 @@ public class tableTests extends Base.baseTest {
         Assert.assertFalse(tablepage.isLevelFiltered("Any")); // Verify that the level filter is reset to "Any"
         Assert.assertTrue(tablepage.isMinEnrollmentFiltered("Any"));
         Assert.assertFalse(tablepage.resetButtonIsVisible());  // Verify that the reset button is no longer visible after resetting filters
+    }
 
+    @Test
+    public void sortByEnrollmentTest() {
+        // Implement test logic for sorting by enrollment in the table
+        // Add assertions to verify the expected behavior
+        String[] sortOption = {"ID", "Course Name", "Language", "Level", "Enrollments"};
+        tablepage.sortBy(sortOption[4]); // Sort by enrollment
+        // Verify that the table is sorted by enrollment in ascending order
+        Assert.assertTrue(tablepage.isSortedByEnrollmentAscending());
+    }
+
+    @Test
+    public void sortByCourseNameTest() {
+        // Implement test logic for sorting by course name in the table
+        // Add assertions to verify the expected behavior
+        String[] sortOption = {"ID", "Course Name", "Language", "Level", "Enrollments"};
+        tablepage.sortBy(sortOption[1]); // Sort by course name
+        // Verify that the table is sorted by course name in ascending order
+        Assert.assertTrue(tablepage.isSortedByCourseNameAlphabetical());
     }
 }
