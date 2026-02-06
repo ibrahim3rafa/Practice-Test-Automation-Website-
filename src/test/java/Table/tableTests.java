@@ -69,4 +69,15 @@ public class tableTests extends Base.baseTest {
         // Verify that the table shows no results
         Assert.assertTrue(tablepage.isNoResultsDisplayed());
     }
+
+    @Test
+    public void resetFiltersTest() throws InterruptedException {
+        tablepage.selectLanguage("Java");
+        tablepage.clickResetButton();
+        Assert.assertFalse(tablepage.isLanguageFiltered("Any")); // Verify that the language filter is reset to "Any"
+        Assert.assertFalse(tablepage.isLevelFiltered("Any")); // Verify that the level filter is reset to "Any"
+        Assert.assertTrue(tablepage.isMinEnrollmentFiltered("Any"));
+        Assert.assertFalse(tablepage.resetButtonIsVisible());  // Verify that the reset button is no longer visible after resetting filters
+
+    }
 }
