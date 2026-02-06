@@ -1,88 +1,172 @@
-Practice Test Automation
-========================
+# 🤖 Practice Test Automation (Selenium + TestNG)
 
-Project overview
-----------------
-This repository contains a small Selenium + TestNG automated test suite (Java, Maven) for the Practice Test Automation demo site (https://practicetestautomation.com/practice/).
+This repository contains an automated test suite for the Practice Test Automation demo site (https://practicetestautomation.com/practice/) implemented with Java, Selenium WebDriver, and TestNG.
 
-The tests exercise the following areas:
-- Login page tests (src/test/java/Login)
-- Table filtering / sorting tests (src/test/java/Table)
-- Exception-handling related tests (src/test/java/Exceptions)
+---
 
-Page objects live under src/main/java/Pages and TestNG test classes under src/test/java.
+## 📌 Project Overview
 
-Prerequisites
--------------
-- Java JDK 11 or newer installed and JAVA_HOME configured.
-- Apache Maven installed and mvn on your PATH.
-- Google Chrome browser installed.
-- ChromeDriver executable compatible with your Chrome version available on your PATH, or provide its path via the system property (see Troubleshooting).
+The goal is to validate key UI flows on the practice site using a Page Object Model (POM) and TestNG. Tests are organized by feature (Login, Table, Exceptions). This README highlights the `Table` tests and how to run and troubleshoot them.
 
-Note: This project currently creates a ChromeDriver directly in the base test (no WebDriverManager). Make sure chromedriver.exe is accessible.
+---
 
-Quick setup (Windows - cmd.exe)
--------------------------------
-1. Open a Windows command prompt (cmd.exe).
-2. From the repository root (where pom.xml is located):
+## 🛠 Tech Stack
 
-   mvn clean test
+- Java (JDK 11+)
+- Selenium WebDriver
+- TestNG
+- Maven
+- ChromeDriver
+- IntelliJ IDEA (recommended)
 
-This will compile the project and run the TestNG suite using the surefire plugin.
+---
 
-Running specific tests
-----------------------
-- Run a single test class:
+## 📂 Project Structure
 
-  mvn -Dtest=Login.loginTests test
+```bash
+src
+├── main
+│   └── java
+│       └── Pages
+│           ├── loginPage.java
+│           ├── tablePage.java
+│           └── exceptionPage.java
+└── test
+    └── java
+        ├── Base
+        │   └── baseTest.java
+        ├── Login
+        │   └── loginTests.java
+        ├── Table
+        │   └── tableTests.java
+        └── Exceptions
+            └── exceptionTests.java
 
-- Run a single test method in a class:
+pom.xml
+target/
+```
 
-  mvn -Dtest=Login.loginTests#validLoginTest test
+---
 
-Adjust package-qualified class names as needed (e.g., Table.tableTests).
+## ▶️ Table Tests (detailed)
 
-Project layout
---------------
-- pom.xml — Maven project file
-- src/main/java/Pages — Page Object classes (loginPage, tablePage, exceptionPage)
-- src/test/java/Base — baseTest (startup/shutdown / WebDriver setup)
-- src/test/java/Login, /Table, /Exceptions — TestNG test classes
-- target — build output and test reports (target/surefire-reports)
+The `Table` test suite is implemented in `src/test/java/Table/tableTests.java` and exercises the filtering, reset, and sorting functionality of the "Test Table" page.
 
-Troubleshooting
----------------
-- ChromeDriver not found / WebDriver errors:
-  - Download a chromedriver.exe that matches your Chrome version and either place it on your PATH or pass its full path to the JVM before running tests:
+Test cases included:
 
-    mvn -Dwebdriver.chrome.driver="C:\path\to\chromedriver.exe" test
+- `languageFilterTest`
+  - Selects a language (e.g., Java) and verifies the table rows are filtered to show only that language.
 
-  - Alternatively, install and configure WebDriverManager (recommended) and update baseTest to use it.
+- `levelFilterTest`
+  - Selects a level (e.g., Beginner) and verifies rows are filtered accordingly.
 
-- Failing assertions / locators:
-  - Verify the target site URL is reachable: https://practicetestautomation.com/practice/
-  - Page locators live in src/main/java/Pages — check them if tests start failing after site updates.
+- `minEnrollmentFilterTest`
+  - Sets the minimum enrollment filter (e.g., "10,000+") and verifies only rows that meet or exceed that threshold are visible.
 
-Test reports
-------------
-After running tests, basic XML/text reports are available in target/surefire-reports. Open the console output for quick pass/fail details.
+- `combinedFiltersTest`
+  - Applies language, level, and minimum enrollment simultaneously and verifies rows satisfy all selected criteria.
 
-Contributing
-------------
-1. Open an issue describing the change or bug.
-2. Fork, create a feature branch, make changes and add/update tests.
-3. Submit a pull request.
+- `noResultsTest`
+  - Uses a filter combination expected to produce no results and verifies the UI indicates no records found.
 
-Notes and next steps
---------------------
-- Consider switching to WebDriverManager to avoid manual ChromeDriver management.
-- Add CI integration (GitHub Actions / Azure Pipelines) to run tests automatically.
+- `resetFiltersTest`
+  - Applies filters, clicks the Reset button, and verifies filters and UI return to their default states.
+  - Note: the test expects the Reset button to disappear after resetting.
 
-License
--------
-This repository does not include a license file. Add one if you intend to publish or share the code.
+- `sortByEnrollmentTest`
+  - Sorts the table by enrollment and verifies results are ordered (ascending) by the enrollment column.
 
-Maintainer
-----------
-Repository owner / author: (update with your name and contact info)
+- `sortByCourseNameTest`
+  - Sorts the table by course name and verifies alphabetical ordering.
 
+These tests rely on `Pages/tablePage.java` for encapsulated interactions and assertions such as `selectLanguage`, `selectLevel`, `setMinEnrollment`, `sortBy`, and the corresponding verification helpers.
+
+---
+
+## ▶️ Test Flow (high level)
+
+1. Start ChromeDriver and open https://practicetestautomation.com/practice/
+2. Click the link to open the Test Table page
+3. Use the `tablePage` Page Object to interact with filters and sorting controls
+4. Assert expected table contents, visibility, and ordering
+5. Tear down WebDriver
+
+---
+
+## 🧪 Running Table Tests
+
+### Run the entire table test class
+
+From the repository root (where `pom.xml` is), run (Windows - cmd.exe):
+
+```bash
+mvn -Dtest=Table.tableTests test
+```
+
+### Run a single test method
+
+To run only the `languageFilterTest` method:
+
+```bash
+mvn -Dtest=Table.tableTests#languageFilterTest test
+```
+
+Or run any other single method by replacing the method name.
+
+### Run all tests
+
+```bash
+mvn clean test
+```
+
+---
+
+## 🔧 Table-specific Troubleshooting & Notes
+
+- Timing and waits
+  - Table operations may mutate the DOM (filtering/hiding rows). If tests are flaky, increase the `WebDriverWait` timeout in `baseTest` or add explicit waits in `tablePage` for the expected row count or a stable DOM state.
+
+- Locators
+  - If the site structure changes, update the selectors in `src/main/java/Pages/tablePage.java`.
+
+- Reset behavior
+  - `resetFiltersTest` expects the Reset button to become hidden after reset and filters to become `Any`. If the UI differs, update the test expectations.
+
+- Sorting validation
+  - Sorting tests compare visible row values. Ensure `tablePage` verification helper parses enrollment numbers correctly (remove commas, convert to integers) before asserting order.
+
+- Environment
+  - Ensure `chromedriver.exe` matches your Chrome version and is on your PATH or pass its path:
+
+```bash
+mvn -Dwebdriver.chrome.driver="C:\path\to\chromedriver.exe" test
+```
+
+- `baseTest` notes
+  - `baseTest` performs a navigation assertion on the landing page header and uses a short default wait. Adjust as needed for your environment.
+
+---
+
+## ✅ Key Features (project-wide)
+
+- Page Object Model (POM) for maintainable UI interactions
+- TestNG test organization (suites, before/after hooks)
+- Clear separation between page logic and tests
+- Easy to run locally with Maven
+
+---
+
+## 🚀 Suggested Improvements
+
+- Integrate WebDriverManager to manage browser drivers automatically
+- Add CI (GitHub Actions / Azure Pipelines) to run tests on push/PR
+- Add more assertions and negative-case coverage for the Table features
+- Generate HTML reports (Allure / Surefire / ReportNG)
+
+---
+
+## 👤 Author
+
+Ibrahim Arafa — Junior Software Tester | ISTQB® Certified Tester (CTFL & MAT)
+
+Manual Testing • Automation Testing • API Testing
